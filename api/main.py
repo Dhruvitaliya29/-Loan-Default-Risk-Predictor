@@ -117,8 +117,11 @@ def load_assets():
 
 @app.on_event("startup")
 def startup_event():
-    """Load assets when the server starts."""
-    load_assets()
+    try:
+        load_assets()
+        print("Assets loaded successfully")
+    except Exception as e:
+        print(f"Startup error: {e}")
 
 def preprocess_input(data_dict: dict) -> np.ndarray:
     """
