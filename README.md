@@ -3,7 +3,7 @@
 An end-to-end Machine Learning system that predicts the probability of loan default using applicant financial and personal information from the Home Credit Default Risk dataset.
 
 The project includes:
-- A complete ML preprocessing & training pipeline
+- Complete ML preprocessing & training pipeline
 - XGBoost-based risk prediction
 - Explainable AI using SHAP
 - FastAPI backend API
@@ -12,9 +12,9 @@ The project includes:
 
 ---
 
-## 🚀 Project Overview
+# 🚀 Project Overview
 
-Financial institutions face major losses due to loan defaults. This project aims to build an explainable ML-powered risk prediction system that can:
+Financial institutions lose billions annually due to loan defaults. This project builds an explainable ML-powered risk prediction system that can:
 
 ✅ Predict loan default probability  
 ✅ Categorize applicants into Low / Medium / High risk  
@@ -39,18 +39,24 @@ Source:
 https://www.kaggle.com/competitions/home-credit-default-risk
 
 ### Dataset Details
-- File used: `application_train.csv`
-- Rows: 307,511
-- Columns: 122
-- Target variable: `TARGET`
-  - `1` → Loan Default
-  - `0` → No Default
 
-### Key Insights from EDA
+| Attribute | Value |
+|---|---|
+| Rows | 307,511 |
+| Columns | 122 |
+| Features After Cleaning | 75 |
+| Non-Default Clients | 282,686 |
+| Default Clients | 24,825 |
+| Imbalance Ratio | 11.39 : 1 |
+
+### Important EDA Findings
+
+- `FLOORSMIN_MEDI` contains ~67.85% missing values
+- `YEARS_BUILD_AVG` contains ~66.50% missing values
+- `YEARS_BUILD_MODE` contains ~66.50% missing values
 - External credit scores (`EXT_SOURCE_1/2/3`) are highly predictive
-- Older applicants tend to default less
+- Older applicants tend to default less frequently
 - `DAYS_EMPLOYED = 365243` represents unemployed/retired applicants
-- The dataset is highly imbalanced (~8% defaults)
 
 ---
 
@@ -139,7 +145,7 @@ pip install -r requirements.txt
 
 ## 4️⃣ Download Dataset
 
-Download from Kaggle:
+Download dataset from Kaggle:
 
 https://www.kaggle.com/competitions/home-credit-default-risk
 
@@ -148,18 +154,19 @@ Place:
 application_train.csv
 ```
 
-inside your dataset/data folder.
+inside your dataset folder.
 
 ---
 
 # 🧠 Machine Learning Pipeline
 
-The ML pipeline includes:
+The ML workflow includes:
 
 ### ✅ Data Cleaning
 - Missing value handling
-- Anomaly correction
+- Outlier/anomaly correction
 - Feature alignment
+- Dropped 49 columns with >40% missing values
 
 ### ✅ Feature Engineering
 - Ratio-based features
@@ -170,7 +177,7 @@ The ML pipeline includes:
 - SMOTE oversampling
 
 ### ✅ Model Training
-Models tested:
+Models evaluated:
 - Logistic Regression
 - Random Forest
 - XGBoost
@@ -182,20 +189,41 @@ Final selected model:
 
 # 📈 Model Performance
 
+## Initial XGBoost Model
+
 | Metric | Score |
 |---|---|
-| ROC-AUC | 0.76 |
-| Accuracy | ~92% |
-| Recall | ~65% |
-| F1 Score | ~0.32 |
+| Accuracy | 91.94% |
+| Precision | 0.5135 |
+| Recall | 0.0230 |
+| F1-Score | 0.0440 |
+| ROC-AUC | 0.7548 |
+| AUC-PR | 0.2380 |
 
-The model was optimized for recall-focused financial risk prediction.
+---
+
+# 🚀 Improved Model Performance
+
+| Metric | Before | After |
+|---|---|---|
+| F1-Score | 0.044 | 0.292 |
+| Recall | 0.023 | 0.327 |
+| Accuracy | 0.919 | 0.872 |
+| ROC-AUC | 0.755 | 0.755 |
+
+### 🔥 Key Improvement
+
+The model was optimized for better minority-class detection (loan defaults).
+
+Although overall accuracy decreased slightly, recall and F1-score improved significantly, making the system much more practical for financial risk prediction.
+
+This improvement demonstrates the importance of handling class imbalance correctly instead of relying only on raw accuracy.
 
 ---
 
 # 🔍 Explainable AI with SHAP
 
-This project uses SHAP (SHapley Additive exPlanations) to provide interpretable predictions.
+This project uses SHAP (SHapley Additive exPlanations) to generate interpretable predictions.
 
 For every applicant:
 - Top 3 important features are shown
@@ -253,8 +281,8 @@ Platform: Render
 
 Features:
 - FastAPI REST API
-- Public endpoint
-- Real-time predictions
+- Public prediction endpoint
+- Real-time model inference
 
 ---
 
@@ -268,14 +296,14 @@ Features:
 
 ---
 
-# 📸 Demo
+# 📸 Demo Features
 
-### Features Demonstrated
 ✅ Low risk prediction  
 ✅ High risk prediction  
 ✅ Interactive risk gauge  
 ✅ SHAP explanations  
 ✅ Real-time API predictions  
+✅ End-to-end deployed ML workflow  
 
 ---
 
@@ -288,20 +316,21 @@ Through this project I learned:
 - Frontend/backend integration
 - Handling real-world deployment/debugging issues
 - Cloud deployment workflows
+- Importance of recall-focused optimization for imbalanced datasets
 
 ---
 
 # 🔗 GitHub Repository
 
-https://github.com/Dhruvitaliya29/-Loan-Default-Risk-Predictor
+:contentReference[oaicite:0]{index=0}
 
 ---
 
 # 🙌 Future Improvements
 
+- Improve recall performance further
 - Add authentication system
 - Add database integration
-- Improve model calibration
 - Add monitoring & logging
 - Dockerize the project
 - CI/CD integration
